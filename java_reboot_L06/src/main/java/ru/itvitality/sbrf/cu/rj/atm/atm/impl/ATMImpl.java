@@ -58,8 +58,10 @@ public class ATMImpl implements ATMService, ATM {
             if ( canGive < mustGive ) {
                 sum += ( mustGive - canGive ) * nominal.getNominal();
                 checkMap.put( nominal, canGive );
+                cell.get(canGive);
             } else {
                 checkMap.put( nominal, mustGive );
+                cell.get(mustGive);
             }
         }
         if ( sum != 0 ) {
