@@ -18,6 +18,9 @@ public class Starter {
         starter.FILE_NAME = args[ 0 ];
         starter.startAtm();
 
+        ( (ATMService) starter.atm ).RecoverFromFile( starter.FILE_NAME );
+        System.out.println("Баланс: " + ((ATMService) starter.atm).getBalance());
+
         starter.startClientInteraction();
     }
 

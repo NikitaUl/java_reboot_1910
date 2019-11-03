@@ -6,9 +6,7 @@ import ru.itvitality.sbrf.cu.rj.atm.atm.ATMService;
 import ru.itvitality.sbrf.cu.rj.atm.cell.Cell;
 import ru.itvitality.sbrf.cu.rj.atm.cell.impl.CellImpl;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class ATMImpl implements ATMService, ATM {
@@ -104,6 +102,28 @@ public class ATMImpl implements ATMService, ATM {
                 String str = item.getNominal().getNominal() + ":" + item.getCount() + "\n";
                 writer.write( str );
             }
+        }
+    }
+
+    @Override
+    public void RecoverFromFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        if (file.exists()){
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while((line = br.readLine()) != null){
+                String[] arrFile = line.split(":");
+                Integer nominal = Integer.parseInt(arrFile[0]);
+                Integer count = Integer.parseInt(arrFile[1]);
+
+                if (count > 0) {
+                    Nominal nom = Nominal.getNominalFromInt(nominal);
+                    this.atmStorage.put(nom, new CellImpl(nom, count));
+                }
+            }
+            br.close();
+            fr.close();
         }
     }
 }
