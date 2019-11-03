@@ -18,6 +18,9 @@ public class Starter {
         starter.FILE_NAME = args[ 0 ];
         starter.startAtm();
 
+        ( (ATMService) starter.atm ).RecoverFromFile( starter.FILE_NAME );
+        System.out.println("Баланс: " + ((ATMService) starter.atm).getBalance());
+
         starter.startClientInteraction();
     }
 
@@ -44,6 +47,18 @@ public class Starter {
                     }
                     break;
                 case "get":
+                    System.out.println( "Enter sum:" );
+                    Integer sum = scanner.nextInt();
+                    scanner.nextLine();
+                    if (sum != 0){
+                        List<Nominal> getNominals = atm.getCash(sum);
+                        for (Nominal nom : getNominals){
+                            System.out.println("Выдана купюра: " + nom.getNominal() + " рублей.");
+                        }
+                        System.out.println( "Success" );
+                    } else {
+                        System.out.println( "Sum must be > 0" );
+                    }
                     break;
                 default:
                     System.out.println( "Incorrect command" );
